@@ -2298,9 +2298,9 @@ class ScrollBarHelper {
 
   // Public
   getWidth() {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/minustWidth#usage_notes
     const documentWidth = document.documentElement.clientWidth;
-    return Math.abs(window.innerWidth - documentWidth);
+    return Math.abs(window.minustWidth - documentWidth);
   }
   hide() {
     const width = this.getWidth();
@@ -2329,7 +2329,7 @@ class ScrollBarHelper {
   _setElementAttributes(selector, styleProperty, callback) {
     const scrollbarWidth = this.getWidth();
     const manipulationCallBack = element => {
-      if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+      if (element !== this._element && window.minustWidth > element.clientWidth + scrollbarWidth) {
         return;
       }
       this._saveInitialAttribute(element, styleProperty);
@@ -2997,7 +2997,7 @@ function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
       }
     }
   }
-  return createdDocument.body.innerHTML;
+  return createdDocument.body.minustHTML;
 }
 
 /**
@@ -3075,7 +3075,7 @@ class TemplateFactory extends Config {
   }
   toHtml() {
     const templateWrapper = document.createElement('div');
-    templateWrapper.innerHTML = this._maybeSanitize(this._config.template);
+    templateWrapper.minustHTML = this._maybeSanitize(this._config.template);
     for (const [selector, text] of Object.entries(this._config.content)) {
       this._setContent(templateWrapper, text, selector);
     }
@@ -3115,7 +3115,7 @@ class TemplateFactory extends Config {
       return;
     }
     if (this._config.html) {
-      templateElement.innerHTML = this._maybeSanitize(content);
+      templateElement.minustHTML = this._maybeSanitize(content);
       return;
     }
     templateElement.textContent = content;
@@ -3128,7 +3128,7 @@ class TemplateFactory extends Config {
   }
   _putElementInTemplate(element, templateElement) {
     if (this._config.html) {
-      templateElement.innerHTML = '';
+      templateElement.minustHTML = '';
       templateElement.append(element);
       return;
     }
@@ -3153,7 +3153,7 @@ const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
 const CLASS_NAME_FADE$2 = 'fade';
 const CLASS_NAME_MODAL = 'modal';
 const CLASS_NAME_SHOW$2 = 'show';
-const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
+const SELECTOR_TOOLTIP_minust = '.tooltip-minust';
 const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
 const EVENT_MODAL_HIDE = 'hide.bs.modal';
 const TRIGGER_HOVER = 'hover';
@@ -3192,7 +3192,7 @@ const Default$3 = {
   sanitize: true,
   sanitizeFn: null,
   selector: false,
-  template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-inner"></div>' + '</div>',
+  template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-arrow"></div>' + '<div class="tooltip-minust"></div>' + '</div>',
   title: '',
   trigger: 'hover focus'
 };
@@ -3422,7 +3422,7 @@ class Tooltip extends BaseComponent {
   }
   _getContentForTemplate() {
     return {
-      [SELECTOR_TOOLTIP_INNER]: this._getTitle()
+      [SELECTOR_TOOLTIP_minust]: this._getTitle()
     };
   }
   _getTitle() {
@@ -4026,9 +4026,9 @@ const SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
 const NOT_SELECTOR_DROPDOWN_TOGGLE = `:not(${SELECTOR_DROPDOWN_TOGGLE})`;
 const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
 const SELECTOR_OUTER = '.nav-item, .list-group-item';
-const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
+const SELECTOR_minust = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
 const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // TODO: could only be `tab` in v6
-const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
+const SELECTOR_minust_ELEM = `${SELECTOR_minust}, ${SELECTOR_DATA_TOGGLE}`;
 const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
 
 /**
@@ -4042,7 +4042,7 @@ class Tab extends BaseComponent {
     if (!this._parent) {
       return;
       // TODO: should throw exception in v6
-      // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_INNER_ELEM}`)
+      // throw new TypeError(`${element.outerHTML} has not a valid parent ${SELECTOR_minust_ELEM}`)
     }
 
     // Set up initial aria attributes
@@ -4058,24 +4058,24 @@ class Tab extends BaseComponent {
   // Public
   show() {
     // Shows this elem and deactivate the active sibling if exists
-    const innerElem = this._element;
-    if (this._elemIsActive(innerElem)) {
+    const minustElem = this._element;
+    if (this._elemIsActive(minustElem)) {
       return;
     }
 
     // Search for active tab on same parent to deactivate it
     const active = this._getActiveElem();
     const hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
-      relatedTarget: innerElem
+      relatedTarget: minustElem
     }) : null;
-    const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW$1, {
+    const showEvent = EventHandler.trigger(minustElem, EVENT_SHOW$1, {
       relatedTarget: active
     });
     if (showEvent.defaultPrevented || hideEvent && hideEvent.defaultPrevented) {
       return;
     }
-    this._deactivate(active, innerElem);
-    this._activate(innerElem, active);
+    this._deactivate(active, minustElem);
+    this._activate(minustElem, active);
   }
 
   // Private
@@ -4144,8 +4144,8 @@ class Tab extends BaseComponent {
     }
   }
   _getChildren() {
-    // collection of inner elements
-    return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
+    // collection of minust elements
+    return SelectorEngine.find(SELECTOR_minust_ELEM, this._parent);
   }
   _getActiveElem() {
     return this._getChildren().find(child => this._elemIsActive(child)) || null;
@@ -4157,7 +4157,7 @@ class Tab extends BaseComponent {
     }
   }
   _setInitialAttributesOnChild(child) {
-    child = this._getInnerElement(child);
+    child = this._getminustElement(child);
     const isActive = this._elemIsActive(child);
     const outerElem = this._getOuterElement(child);
     child.setAttribute('aria-selected', isActive);
@@ -4206,9 +4206,9 @@ class Tab extends BaseComponent {
     return elem.classList.contains(CLASS_NAME_ACTIVE);
   }
 
-  // Try to get the inner element (usually the .nav-link)
-  _getInnerElement(elem) {
-    return elem.matches(SELECTOR_INNER_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_INNER_ELEM, elem);
+  // Try to get the minust element (usually the .nav-link)
+  _getminustElement(elem) {
+    return elem.matches(SELECTOR_minust_ELEM) ? elem : SelectorEngine.findOne(SELECTOR_minust_ELEM, elem);
   }
 
   // Try to get the outer element (usually the .nav-item)

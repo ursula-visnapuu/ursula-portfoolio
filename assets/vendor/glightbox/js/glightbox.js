@@ -252,7 +252,7 @@
   function createHTML(htmlStr) {
     var frag = document.createDocumentFragment(),
       temp = document.createElement('div');
-    temp.innerHTML = htmlStr;
+    temp.minustHTML = htmlStr;
     while (temp.firstChild) {
       frag.appendChild(temp.firstChild);
     }
@@ -260,8 +260,8 @@
   }
   function windowSize() {
     return {
-      width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
-      height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+      width: window.minustWidth || document.documentElement.clientWidth || document.body.clientWidth,
+      height: window.minustHeight || document.documentElement.clientHeight || document.body.clientHeight
     };
   }
   function whichAnimationEvent() {
@@ -698,7 +698,7 @@
     }, {
       key: "widowWidth",
       value: function widowWidth() {
-        return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        return window.minustWidth || document.documentElement.clientWidth || document.body.clientWidth;
       }
     }]);
   }();
@@ -768,7 +768,7 @@
         if (e.target === this.el || clicked !== 'img' && closest(e.target, '.gslide-inline')) {
           this.active = true;
           this.el.classList.add('dragging');
-          this.dragContainer = closest(e.target, '.ginner-container');
+          this.dragContainer = closest(e.target, '.gminust-container');
         }
       }
     }, {
@@ -937,7 +937,7 @@
 
   function slideVideo(slide, data, index, callback) {
     var _this = this;
-    var slideContainer = slide.querySelector('.ginner-container');
+    var slideContainer = slide.querySelector('.gminust-container');
     var videoID = 'gvideo' + index;
     var slideMedia = slide.querySelector('.gslide-media');
     var videoPlayers = this.getAllPlayers();
@@ -1006,10 +1006,10 @@
     var slideMedia = slide.querySelector('.gslide-media');
     var hash = has(data, 'href') && data.href ? data.href.split('#').pop().trim() : false;
     var content = has(data, 'content') && data.content ? data.content : false;
-    var innerContent;
+    var minustContent;
     if (content) {
       if (isString(content)) {
-        innerContent = createHTML("<div class=\"ginlined-content\">".concat(content, "</div>"));
+        minustContent = createHTML("<div class=\"ginlined-content\">".concat(content, "</div>"));
       }
       if (isNode(content)) {
         if (content.style.display == 'none') {
@@ -1018,7 +1018,7 @@
         var container = document.createElement('div');
         container.className = 'ginlined-content';
         container.appendChild(content);
-        innerContent = container;
+        minustContent = container;
       }
     }
     if (hash) {
@@ -1030,15 +1030,15 @@
       cloned.style.height = data.height;
       cloned.style.maxWidth = data.width;
       addClass(cloned, 'ginlined-content');
-      innerContent = cloned;
+      minustContent = cloned;
     }
-    if (!innerContent) {
+    if (!minustContent) {
       console.error('Unable to append inline slide content', data);
       return false;
     }
     slideMedia.style.height = data.height;
     slideMedia.style.width = data.width;
-    slideMedia.appendChild(innerContent);
+    slideMedia.appendChild(minustContent);
     this.events['inlineclose' + hash] = addEvent('click', {
       onElement: slideMedia.querySelectorAll('.gtrigger-close'),
       withCallback: function withCallback(e) {
@@ -1200,7 +1200,7 @@
         if (data.description && data.description.substring(0, 1) === '.') {
           var description;
           try {
-            description = document.querySelector(data.description).innerHTML;
+            description = document.querySelector(data.description).minustHTML;
           } catch (error) {
             if (!(error instanceof DOMException)) {
               throw error;
@@ -1213,7 +1213,7 @@
         if (!data.description) {
           var nodeDesc = element.querySelector('.glightbox-desc');
           if (nodeDesc) {
-            data.description = nodeDesc.innerHTML;
+            data.description = nodeDesc.minustHTML;
           }
         }
         this.setSize(data, settings, element);
@@ -1281,7 +1281,7 @@
         var slideMedia = slide.querySelector('.gslide-media');
         var slideTitle = slide.querySelector('.gslide-title');
         var slideText = slide.querySelector('.gslide-desc');
-        var slideDesc = slide.querySelector('.gdesc-inner');
+        var slideDesc = slide.querySelector('.gdesc-minust');
         var finalCallback = callback;
         var titleID = 'gSlideTitle_' + this.index;
         var textID = 'gSlideDesc_' + this.index;
@@ -1304,7 +1304,7 @@
         } else {
           if (slideTitle && slideConfig.title !== '') {
             slideTitle.id = titleID;
-            slideTitle.innerHTML = slideConfig.title;
+            slideTitle.minustHTML = slideConfig.title;
           } else {
             slideTitle.parentNode.removeChild(slideTitle);
           }
@@ -1312,10 +1312,10 @@
             slideText.id = textID;
             if (isMobileDevice && settings.moreLength > 0) {
               slideConfig.smallDescription = this.slideShortDesc(slideConfig.description, settings.moreLength, settings.moreText);
-              slideText.innerHTML = slideConfig.smallDescription;
+              slideText.minustHTML = slideConfig.smallDescription;
               this.descriptionEvents(slideText, slideConfig);
             } else {
-              slideText.innerHTML = slideConfig.description;
+              slideText.minustHTML = slideConfig.description;
             }
           } else {
             slideText.parentNode.removeChild(slideText);
@@ -1380,8 +1380,8 @@
         var n = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 50;
         var wordBoundary = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var div = document.createElement('div');
-        div.innerHTML = string;
-        var cleanedString = div.innerText;
+        div.minustHTML = string;
+        var cleanedString = div.minustText;
         var useWordBoundary = wordBoundary;
         string = cleanedString.trim();
         if (string.length <= n) {
@@ -1411,7 +1411,7 @@
             if (!desc) {
               return false;
             }
-            desc.innerHTML = data.description;
+            desc.minustHTML = data.description;
             addClass(body, 'gdesc-open');
             var shortEvent = addEvent('click', {
               onElement: [body, closest(desc, '.gslide-description')],
@@ -1419,7 +1419,7 @@
                 if (event.target.nodeName.toLowerCase() !== 'a') {
                   removeClass(body, 'gdesc-open');
                   addClass(body, 'gdesc-closed');
-                  desc.innerHTML = data.smallDescription;
+                  desc.minustHTML = data.smallDescription;
                   _this2.descriptionEvents(desc, data);
                   setTimeout(function () {
                     removeClass(body, 'gdesc-closed');
@@ -1800,9 +1800,9 @@
 
   function resetSlideMove(slide) {
     var transitionEnd = whichTransitionEvent();
-    var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    var windowWidth = window.minustWidth || document.documentElement.clientWidth || document.body.clientWidth;
     var media = hasClass(slide, 'gslide-media') ? slide : slide.querySelector('.gslide-media');
-    var container = closest(media, '.ginner-container');
+    var container = closest(media, '.gminust-container');
     var desc = slide.querySelector('.gslide-description');
     if (windowWidth > 769) {
       media = container;
@@ -1858,7 +1858,7 @@
     var touchInstance = new TouchEvents(sliderWrapper, {
       touchStart: function touchStart(e) {
         process = true;
-        if (hasClass(e.targetTouches[0].target, 'ginner-container') || closest(e.targetTouches[0].target, '.gslide-desc') || e.targetTouches[0].target.nodeName.toLowerCase() == 'a') {
+        if (hasClass(e.targetTouches[0].target, 'gminust-container') || closest(e.targetTouches[0].target, '.gslide-desc') || e.targetTouches[0].target.nodeName.toLowerCase() == 'a') {
           process = false;
         }
         if (closest(e.targetTouches[0].target, '.gslide-inline') && !hasClass(e.targetTouches[0].target.parentNode, 'gslide-inline')) {
@@ -1877,12 +1877,12 @@
           if (hasClass(media, 'gslide-image')) {
             mediaImage = media.querySelector('img');
           }
-          var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+          var windowWidth = window.minustWidth || document.documentElement.clientWidth || document.body.clientWidth;
           if (windowWidth > 769) {
-            media = currentSlide.querySelector('.ginner-container');
+            media = currentSlide.querySelector('.gminust-container');
           }
           removeClass(overlay, 'greset');
-          if (e.pageX > 20 && e.pageX < window.innerWidth - 20) {
+          if (e.pageX > 20 && e.pageX < window.minustWidth - 20) {
             return;
           }
           e.preventDefault();
@@ -2132,7 +2132,7 @@
       prev: '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 477.175 477.175" xml:space="preserve"><g><path d="M145.188,238.575l215.5-215.5c5.3-5.3,5.3-13.8,0-19.1s-13.8-5.3-19.1,0l-225.1,225.1c-5.3,5.3-5.3,13.8,0,19.1l225.1,225c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4c5.3-5.3,5.3-13.8,0-19.1L145.188,238.575z"/></g></svg>'
     }
   };
-  defaults.slideHTML = "<div class=\"gslide\">\n    <div class=\"gslide-inner-content\">\n        <div class=\"ginner-container\">\n            <div class=\"gslide-media\">\n            </div>\n            <div class=\"gslide-description\">\n                <div class=\"gdesc-inner\">\n                    <h4 class=\"gslide-title\"></h4>\n                    <div class=\"gslide-desc\"></div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>";
+  defaults.slideHTML = "<div class=\"gslide\">\n    <div class=\"gslide-minust-content\">\n        <div class=\"gminust-container\">\n            <div class=\"gslide-media\">\n            </div>\n            <div class=\"gslide-description\">\n                <div class=\"gdesc-minust\">\n                    <h4 class=\"gslide-title\"></h4>\n                    <div class=\"gslide-desc\"></div>\n                </div>\n            </div>\n        </div>\n    </div>\n</div>";
   defaults.lightboxHTML = "<div id=\"glightbox-body\" class=\"glightbox-container\" tabindex=\"-1\" role=\"dialog\" aria-hidden=\"false\">\n    <div class=\"gloader visible\"></div>\n    <div class=\"goverlay\"></div>\n    <div class=\"gcontainer\">\n    <div id=\"glightbox-slider\" class=\"gslider\"></div>\n    <button class=\"gclose gbtn\" aria-label=\"Close\" data-taborder=\"3\">{closeSVG}</button>\n    <button class=\"gprev gbtn\" aria-label=\"Previous\" data-taborder=\"2\">{prevSVG}</button>\n    <button class=\"gnext gbtn\" aria-label=\"Next\" data-taborder=\"1\">{nextSVG}</button>\n</div>\n</div>";
   var GlightboxInit = function () {
     function GlightboxInit() {
@@ -2192,12 +2192,12 @@
         this.build();
         animateElement(this.overlay, this.settings.openEffect === 'none' ? 'none' : this.settings.cssEfects.fade["in"]);
         var body = document.body;
-        var scrollBar = window.innerWidth - document.documentElement.clientWidth;
+        var scrollBar = window.minustWidth - document.documentElement.clientWidth;
         if (scrollBar > 0) {
           var styleSheet = document.createElement('style');
           styleSheet.type = 'text/css';
           styleSheet.className = 'gcss-styles';
-          styleSheet.innerText = ".gscrollbar-fixer {margin-right: ".concat(scrollBar, "px}");
+          styleSheet.minustText = ".gscrollbar-fixer {margin-right: ".concat(scrollBar, "px}");
           document.head.appendChild(styleSheet);
           addClass(body, 'gscrollbar-fixer');
         }
@@ -2537,7 +2537,7 @@
           animOut = this.settings.cssEfects.slideBack.out;
         }
         animateElement(prevSlide, animOut, function () {
-          var container = prevSlide.querySelector('.ginner-container');
+          var container = prevSlide.querySelector('.gminust-container');
           var media = prevSlide.querySelector('.gslide-media');
           var desc = prevSlide.querySelector('.gslide-description');
           container.style.transform = '';
@@ -2649,7 +2649,7 @@
         }
         this.elements = newElements;
         if (this.lightboxOpen) {
-          this.slidesContainer.innerHTML = '';
+          this.slidesContainer.minustHTML = '';
           if (this.elements.length) {
             each(this.elements, function () {
               var slide = createHTML(_this5.settings.slideHTML);
@@ -2820,7 +2820,7 @@
           this.events['outClose'] = addEvent('click', {
             onElement: modal,
             withCallback: function withCallback(e, target) {
-              if (!_this7.preventOutsideClick && !hasClass(document.body, 'glightbox-mobile') && !closest(e.target, '.ginner-container')) {
+              if (!_this7.preventOutsideClick && !hasClass(document.body, 'glightbox-mobile') && !closest(e.target, '.gminust-container')) {
                 if (!closest(e.target, '.gbtn') && !hasClass(e.target, 'gnext') && !hasClass(e.target, 'gprev')) {
                   _this7.close();
                 }

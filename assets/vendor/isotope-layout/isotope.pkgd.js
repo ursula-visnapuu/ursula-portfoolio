@@ -330,8 +330,8 @@ function getZeroSize() {
   var size = {
     width: 0,
     height: 0,
-    innerWidth: 0,
-    innerHeight: 0,
+    minustWidth: 0,
+    minustHeight: 0,
     outerWidth: 0,
     outerHeight: 0
   };
@@ -380,7 +380,7 @@ function setup() {
 
   /**
    * Chrome & Safari measure the outer-width on style.width on border-box elems
-   * IE11 & Firefox<29 measures the inner-width
+   * IE11 & Firefox<29 measures the minust-width
    */
   var div = document.createElement('div');
   div.style.width = '200px';
@@ -460,8 +460,8 @@ function getSize( elem ) {
       ( isBorderBoxSizeOuter ? 0 : paddingHeight + borderHeight );
   }
 
-  size.innerWidth = size.width - ( paddingWidth + borderWidth );
-  size.innerHeight = size.height - ( paddingHeight + borderHeight );
+  size.minustWidth = size.width - ( paddingWidth + borderWidth );
+  size.minustHeight = size.height - ( paddingHeight + borderHeight );
 
   size.outerWidth = size.width + marginWidth;
   size.outerHeight = size.height + marginHeight;
@@ -1983,7 +1983,7 @@ proto.needsResizeLayout = function() {
   // check that this.size and size are there
   // IE8 triggers resize on body size change, so they might not be
   var hasSizes = this.size && size;
-  return hasSizes && size.innerWidth !== this.size.innerWidth;
+  return hasSizes && size.minustWidth !== this.size.minustWidth;
 };
 
 // -------------------------- methods -------------------------- //
@@ -2417,7 +2417,7 @@ return Item;
     // check that this.size and size are there
     // IE8 triggers resize on body size change, so they might not be
     var hasSizes = this.isotope.size && size;
-    return hasSizes && size.innerHeight != this.isotope.size.innerHeight;
+    return hasSizes && size.minustHeight != this.isotope.size.minustHeight;
   };
 
   // ----- measurements ----- //
@@ -2452,7 +2452,7 @@ return Item;
     var firstItemSize = this.getFirstItemSize();
     this[ segmentName ] = firstItemSize && firstItemSize[ outerSize ] ||
       // or size of container
-      this.isotope.size[ 'inner' + size ];
+      this.isotope.size[ 'minust' + size ];
   };
 
   proto.getFirstItemSize = function() {
@@ -2593,7 +2593,7 @@ return Item;
     // check that this.size and size are there
     // IE8 triggers resize on body size change, so they might not be
     var size = getSize( container );
-    this.containerWidth = size && size.innerWidth;
+    this.containerWidth = size && size.minustWidth;
   };
 
   proto._getItemLayoutPosition = function( item ) {
@@ -2859,7 +2859,7 @@ proto._getItemLayoutPosition = function( item ) {
 
   var itemWidth = item.size.outerWidth + this.gutter;
   // if this element cannot fit in the current row
-  var containerWidth = this.isotope.size.innerWidth + this.gutter;
+  var containerWidth = this.isotope.size.minustWidth + this.gutter;
   if ( this.x !== 0 && itemWidth + this.x > containerWidth ) {
     this.x = 0;
     this.y = this.maxY;
@@ -2924,7 +2924,7 @@ proto._resetLayout = function() {
 
 proto._getItemLayoutPosition = function( item ) {
   item.getSize();
-  var x = ( this.isotope.size.innerWidth - item.size.outerWidth ) *
+  var x = ( this.isotope.size.minustWidth - item.size.outerWidth ) *
     this.options.horizontalAlignment;
   var y = this.y;
   this.y += item.size.outerHeight;

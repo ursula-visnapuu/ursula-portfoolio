@@ -1507,7 +1507,7 @@
   .bx-border-bottom:before {
     content: "\e9f2";
   }
-  .bx-border-inner:before {
+  .bx-border-minust:before {
     content: "\e9f3";
   }
   .bx-border-left:before {

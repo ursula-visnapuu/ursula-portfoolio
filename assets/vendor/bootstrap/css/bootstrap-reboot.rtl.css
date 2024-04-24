@@ -495,7 +495,7 @@ button:not(:disabled),
   cursor: pointer;
 }
 
-::-moz-focus-inner {
+::-moz-focus-minust {
   padding: 0;
   border-style: none;
 }
@@ -538,7 +538,7 @@ legend + * {
   padding: 0;
 }
 
-::-webkit-inner-spin-button {
+::-webkit-minust-spin-button {
   height: auto;
 }
 
